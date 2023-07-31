@@ -1,0 +1,4 @@
+.header__currentUser{
+  display: flex;
+  gap: 24px;
+}

@@ -1,0 +1,6 @@
+@media (max-width: 920px) {
+  .page__content_narrow {
+    padding-left: 19px;
+    padding-right: 19px;
+  }
+}

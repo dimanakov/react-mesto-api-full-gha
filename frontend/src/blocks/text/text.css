@@ -1,0 +1,15 @@
+.text {
+  margin: 0;
+  font-size: 18px;
+  line-height: 21.78px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+@media (max-width: 920px) {
+  .text {
+    font-size: 14px;
+    line-height: 16.94px;
+  }
+}

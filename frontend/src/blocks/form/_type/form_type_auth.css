@@ -1,0 +1,6 @@
+@media (max-width: 920px) {
+  .form_type_auth {
+    width: 260px;
+    margin: 0 22px;
+  }
+}

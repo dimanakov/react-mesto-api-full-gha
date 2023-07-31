@@ -1,0 +1,11 @@
+.form__input {
+  padding: 0 0 9px;
+  border: none;
+  outline: none;
+  margin: 0;
+  font-size: 14px;
+  line-height: 16.94px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}

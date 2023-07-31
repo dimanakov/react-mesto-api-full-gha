@@ -1,0 +1,7 @@
+.elements__image {
+  display: block;
+  width: 282px;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+  cursor: pointer;
+}

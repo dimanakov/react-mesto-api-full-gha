@@ -1,0 +1,5 @@
+.button {
+  padding: 0;
+  cursor: url('../../images/cursor-pointer.svg') 12 0, pointer;
+  transition: opacity .5s ease;
+}

@@ -1,0 +1,15 @@
+.form__submit_type_popup {
+  background-color: rgba(0, 0, 0, 1);
+  color: #fff;
+  margin: 18px auto 36px;
+}
+
+.form__submit_type_popup:hover {
+  background-color: rgba(0, 0, 0, .8);
+}
+
+@media (max-width: 920px) {
+  .form__submit_type_popup {
+    margin: 15px auto 25px;
+  }
+}

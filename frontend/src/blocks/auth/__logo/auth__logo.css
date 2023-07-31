@@ -1,0 +1,12 @@
+.auth__logo {
+  margin: 60px 155px 32px;
+  display: block;
+  height: 120px;
+  width: 120px;
+}
+
+@media (max-width: 920px) {
+  .auth__logo {
+    margin: 50px 80px 40px;
+  }
+}

@@ -1,0 +1,11 @@
+.form__heading_type_authorization {
+  color: #fff;
+  text-align: center;
+  margin: 60px auto 50px;
+}
+
+@media (max-width: 920px) {
+  .form__heading_type_authorization {
+    margin: 40px auto 40px;
+  }
+}

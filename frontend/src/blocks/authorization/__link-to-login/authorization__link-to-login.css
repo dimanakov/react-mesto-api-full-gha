@@ -1,0 +1,13 @@
+.authorization__link-to-login {
+  margin: 0 auto;
+  color: #fff;
+  font-size: 14px;
+  line-height: 16.94px;
+  text-decoration: none;
+  cursor: url('../../../images/cursor-pointer.svg') 12 0, pointer;
+  transition: opacity .5s ease;
+}
+
+.authorization__link-to-login:hover {
+  opacity: .6;
+}

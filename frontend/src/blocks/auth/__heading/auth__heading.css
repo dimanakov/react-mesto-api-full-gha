@@ -1,0 +1,15 @@
+.auth__heading {
+  max-width: 358px;
+  margin: 0 36px 60px;
+  color: #000;
+  text-align: center;
+}
+
+@media (max-width: 920px) {
+  .auth__heading {
+    max-width: 244px;
+    margin: 0 18px 50px;
+    font-size: 20px;
+    line-height: 24px;
+  }
+}

@@ -1,0 +1,15 @@
+.form__submit_type_authorization {
+  background-color: rgba(255, 255, 255, 1);
+  color: #000;
+  margin: 216px auto 15px;
+}
+
+.form__submit_type_authorization:hover {
+  background-color: rgba(255, 255, 255, .8);
+}
+
+@media (max-width: 920px) {
+  .form__submit_type_authorization {
+    margin: 173px auto 20px;
+  }
+}

@@ -1,0 +1,10 @@
+.form__heading_type_input {
+  color: #000;
+  margin: 34px auto 48px;
+}
+
+@media (max-width: 920px) {
+  .form__heading_type_input {
+    margin: 25px auto 75px;
+  }
+}
