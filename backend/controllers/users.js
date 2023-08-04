@@ -5,14 +5,21 @@ const User = require('../models/user');
 
 module.exports.getUsers = (req, res, next) => {
   User.find({})
-    .then((users) => res.send({ data: users }))
+    .then((users) => res.send(users.map((user) => {
+      const {
+        _id, name, about, avatar, email,
+      } = user;
+      return {
+        _id, name, about, avatar, email,
+      };
+    })))
     .catch(next);
 };
 
 module.exports.getUserProfile = (req, res, next) => {
   User.findById(req.user._id)
     .then((user) => {
-      res.send({ data: user });
+      res.send(user);
     })
     .catch(next);
 };
@@ -24,7 +31,7 @@ module.exports.getUserById = (req, res, next) => {
         next(new NOT_FOUND_404(' Пользователь по указанному _id не найден.'));
         return;
       }
-      res.send({ data: user });
+      res.send(user);
     })
     .catch((err) => {
       if (err instanceof mongoose.Error.CastError) {
@@ -47,7 +54,7 @@ module.exports.updateUserProfile = (req, res, next) => {
         next(new NOT_FOUND_404(' Пользователь по указанному _id не найден.'));
         return;
       }
-      res.send({ data: user });
+      res.send(user);
     })
     .catch((err) => {
       if (err instanceof mongoose.Error.ValidationError) {
@@ -70,7 +77,7 @@ module.exports.updateUserAvatar = (req, res, next) => {
         next(new NOT_FOUND_404(' Пользователь по указанному _id не найден.'));
         return;
       }
-      res.send({ data: user });
+      res.send(user);
     })
     .catch((err) => {
       if (err instanceof mongoose.Error.ValidationError) {

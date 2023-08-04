@@ -1,11 +1,11 @@
-import {useContext} from 'react';
+import { useContext } from 'react';
 import { CurrentUserContext } from '../contexts/CurrentUserContext.js';
 import Card from './Card.js';
 
 export default function Main({ onEditAvatar, onEditProfile, onAddPlace, cards, onCardClick, onCardLike, onRemoveCard }) {
 
   const currentUser = useContext(CurrentUserContext);
-  
+
   return (
     <main>
       <section className="profile page__content page__content_narrow"

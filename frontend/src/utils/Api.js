@@ -1,5 +1,5 @@
 class Api {
-  constructor({baseUrl, headers}) {
+  constructor({ baseUrl, headers }) {
     this._address = baseUrl;
     this._headers = headers;
   }
@@ -12,15 +12,20 @@ class Api {
   }
 
   async getUserInfo() {
+    console.log(this._headers);
     const res = await fetch(`${this._address}/users/me`, {
-      headers: this._headers
+      headers: {
+        ...this._headers, 'Authorization': `Bearer ${localStorage.getItem('jwt')}`
+      }
     });
     return this._getResponseData(res);
   }
 
   async getInitialCards() {
     const res = await fetch(`${this._address}/cards`, {
-      headers: this._headers
+      headers: {
+        ...this._headers, 'Authorization': `Bearer ${localStorage.getItem('jwt')}`
+      }
     });
     return this._getResponseData(res);
   }
@@ -28,7 +33,9 @@ class Api {
   async setUserInfo(data) {
     const res = await fetch(`${this._address}/users/me`, {
       method: 'PATCH',
-      headers: this._headers,
+      headers: {
+        ...this._headers, 'Authorization': `Bearer ${localStorage.getItem('jwt')}`
+      },
       body: JSON.stringify({
         name: data.name,
         about: data.about
@@ -40,7 +47,9 @@ class Api {
   async setUserAvatar(link) {
     const res = await fetch(`${this._address}/users/me/avatar`, {
       method: 'PATCH',
-      headers: this._headers,
+      headers: {
+        ...this._headers, 'Authorization': `Bearer ${localStorage.getItem('jwt')}`
+      },
       body: JSON.stringify({
         avatar: link.avatar
       })
@@ -51,7 +60,9 @@ class Api {
   async addCard(data) {
     const res = await fetch(`${this._address}/cards`, {
       method: 'POST',
-      headers: this._headers,
+      headers: {
+        ...this._headers, 'Authorization': `Bearer ${localStorage.getItem('jwt')}`
+      },
       body: JSON.stringify({
         name: data.name,
         link: data.link
@@ -60,39 +71,45 @@ class Api {
     return this._getResponseData(res);
   }
 
-  changeLikeCardStatus(card, isLiked){
+  changeLikeCardStatus(card, isLiked) {
     return isLiked ? this.addLike(card) : this.removeLike(card)
   }
 
-  async addLike(data) {
-    const res = await fetch(`${this._address}/cards/${data._id}/likes`, {
+  async addLike(card) {
+    const res = await fetch(`${this._address}/cards/${card._id}/likes`, {
       method: 'PUT',
-      headers: this._headers
+      headers: {
+        ...this._headers, 'Authorization': `Bearer ${localStorage.getItem('jwt')}`
+      }
     });
     return this._getResponseData(res);
   }
 
-  async removeLike(data) {
-    const res = await fetch(`${this._address}/cards/${data._id}/likes`, {
+  async removeLike(card) {
+    const res = await fetch(`${this._address}/cards/${card._id}/likes`, {
       method: 'DELETE',
-      headers: this._headers
+      headers: {
+        ...this._headers, 'Authorization': `Bearer ${localStorage.getItem('jwt')}`
+      }
     });
     return this._getResponseData(res);
   }
 
-  async removeCard(data) {
-    const res = await fetch(`${this._address}/cards/${data._id}`, {
+  async removeCard(card) {
+    const res = await fetch(`${this._address}/cards/${card._id}`, {
       method: 'DELETE',
-      headers: this._headers
+      headers: {
+        ...this._headers, 'Authorization': `Bearer ${localStorage.getItem('jwt')}`
+      }
     });
     return this._getResponseData(res);
   }
 }
 
 const api = new Api({
-  baseUrl: 'https://mesto.nomoreparties.co/v1/cohort-65',
+  baseUrl: 'http://localhost:3001',
   headers: {
-    authorization: '5fe7123c-7279-49b2-81ff-c2ec486e8681',
+    'Authorization': `Bearer ${localStorage.getItem('jwt')}`,
     'Content-Type': 'application/json'
   },
 });

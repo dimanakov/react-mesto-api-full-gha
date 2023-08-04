@@ -4,7 +4,11 @@ const Card = require('../models/card');
 
 module.exports.getCards = (req, res, next) => {
   Card.find({})
-    .then((cards) => res.send({ data: cards }))
+    .sort([['createAt', -1]])
+    .populate(['owner', 'likes'])
+    .then((cards) => {
+      res.send(cards);
+    })
     .catch(next);
 };
 
@@ -14,18 +18,26 @@ module.exports.addCard = (req, res, next) => {
   Card.create(
     { name, link, owner: req.user._id },
   )
-    .then((card) => res.status(201).send({ data: card }))
+    .then((card) => {
+      Card.findById(card._id)
+        .populate(['owner', 'likes'])
+        // eslint-disable-next-line no-shadow
+        .then((card) => {
+          res.status(201).send(card);
+        });
+    })
     .catch(next);
 };
 
 module.exports.removeCard = (req, res, next) => {
   Card.findById(req.params.cardId)
+    .populate(['owner', 'likes'])
     .then((card) => {
       if (!card) {
         next(new NOT_FOUND_404('Карточка не найдена.'));
         return;
       }
-      if (card.owner.toString() !== req.user._id) {
+      if (card.owner._id.toString() !== req.user._id) {
         next(new FOBIDDEN_403('Удаление чужих карточек невозможно'));
         return;
       }
@@ -44,12 +56,13 @@ module.exports.setLike = (req, res, next) => {
     { $addToSet: { likes: req.user._id } }, // добавить _id в массив, если его там нет
     { new: true },
   )
+    .populate(['owner', 'likes'])
     .then((card) => {
       if (!card) {
         next(new NOT_FOUND_404('Карточка не найдена.'));
         return;
       }
-      res.send(card.likes);
+      res.send(card);
     })
     .catch(next);
 };
@@ -60,12 +73,13 @@ module.exports.removeLike = (req, res, next) => {
     { $pull: { likes: req.user._id } }, // убрать _id из массива
     { new: true },
   )
+    .populate(['owner', 'likes'])
     .then((card) => {
       if (!card) {
         next(new NOT_FOUND_404('Карточка не найдена.'));
         return;
       }
-      res.send(card.likes);
+      res.send(card);
     })
     .catch(next);
 };

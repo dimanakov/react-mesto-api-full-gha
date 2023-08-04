@@ -24,6 +24,5 @@ module.exports = (req, res, next) => {
     next(new UNAUTHORIZED_401('Необходима авторизация'));
   }
   req.user = payload; // записываем верификацию в объект запроса
-
   next(); // пропускаем запрос дальше
 };

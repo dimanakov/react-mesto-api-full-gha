@@ -147,7 +147,7 @@ export default function App() {
     setIsLoading(true);
     login(email, password)
       .then((res) => {
-        localStorage.setItem('jwt', res.token)
+        localStorage.setItem('jwt', res.token);
         setLoggedIn(true);
         setUserEmail(email);
         navigate('/', { replace: true })
@@ -194,21 +194,24 @@ export default function App() {
       const jwt = localStorage.getItem('jwt');
       getUserAuth(jwt)
         .then((res) => {
-          setUserEmail(res?.data.email);
-          res ? navigate('/', { replace: true }) : navigate('/sign-in', { replace: true });
           setLoggedIn(true);
+          setUserEmail(res?.email);
+          res ? navigate('/', { replace: true }) : navigate('/sign-in', { replace: true });
         })
         .catch((err) => {             //попадаем сюда если один из промисов завершится ошибкой 
+          setLoggedIn(false);
           console.error(err);
         })
     }
   }
 
   useEffect(() => {
-    getUserData();
     checkToken();
+    if (isLoggedIn) {
+      getUserData();
+    }
     // eslint-disable-next-line
-  }, []);
+  }, [isLoggedIn]);
 
   return (    //визуальное содержимое компонента App вставляемое на главную страницу index
     <AppContext.Provider value={{ isLoading, closeAllPopups }}>

@@ -40,7 +40,6 @@ const userSchema = new mongoose.Schema(
       select: false, // необходимо добавить поле select
     },
   },
-  { versionKey: false },
 );
 // добавим метод findUserByCredentials(собственный метод mongoose) схеме пользователя
 // у него будет два параметра — почта и пароль

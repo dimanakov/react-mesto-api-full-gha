@@ -1,6 +1,6 @@
-export default function Auth () {
+export default function Auth() {
 
-  const baseUrl = 'https://auth.nomoreparties.co';
+  const baseUrl = 'http://localhost:3001';
   const headers = { 'Content-Type': 'application/json' };
 
   function _getResponseData(res) {
@@ -10,16 +10,16 @@ export default function Auth () {
     return res.json();
   }
 
-  async function register(email, password){
-      const res = await fetch(`${baseUrl}/signup`, {
-        method: "POST",
-        headers: headers,
-        body: JSON.stringify({
-          password: password,
-          email: email,
-        })
-      });
-      return _getResponseData(res);
+  async function register(email, password) {
+    const res = await fetch(`${baseUrl}/signup`, {
+      method: "POST",
+      headers: headers,
+      body: JSON.stringify({
+        password: password,
+        email: email,
+      })
+    });
+    return _getResponseData(res);
   }
 
   async function login(email, password) {
@@ -37,9 +37,11 @@ export default function Auth () {
   async function getUserAuth(jwt) {
     const res = await fetch(`${baseUrl}/users/me`, {
       method: "GET",
-      headers: {...headers,
-      'Accept': 'application/json',
-      'Authorization': `Bearer ${jwt}`},
+      headers: {
+        ...headers,
+        'Accept': 'application/json',
+        'Authorization': `Bearer ${jwt}`,
+      },
     });
     return _getResponseData(res);
   }
