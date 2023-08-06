@@ -17,7 +17,7 @@ const app = express();
 
 mongoose.connect(DB_URL);
 
-app.use(cors({ origin: 'http://localhost:3000' }));
+app.use(cors({ origin: ['http://localhost:3000', 'https://get-mesto.nomoreparties.co'] }));
 app.use(helmet());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -25,6 +25,8 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(requestLogger); // логирование запросов через winston -> request.log
 
 app.get('/crash-test', () => {
+  // eslint-disable-next-line no-console
+  console.log('crash-test start');
   setTimeout(() => {
     throw new Error('Сервер сейчас упадёт');
   }, 0);
