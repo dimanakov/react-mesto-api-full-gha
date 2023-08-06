@@ -17,7 +17,7 @@ const app = express();
 
 mongoose.connect(DB_URL);
 
-app.use(cors({ origin: ['http://localhost:3000', 'https://get-mesto.nomoreparties.co'] }));
+app.use(cors({ origin: 'https://get-mesto.nomoreparties.co' }));
 app.use(helmet());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
