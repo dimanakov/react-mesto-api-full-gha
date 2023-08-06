@@ -12,7 +12,6 @@ class Api {
   }
 
   async getUserInfo() {
-    console.log(this._headers);
     const res = await fetch(`${this._address}/users/me`, {
       headers: {
         ...this._headers, 'Authorization': `Bearer ${localStorage.getItem('jwt')}`
@@ -107,9 +106,8 @@ class Api {
 }
 
 const api = new Api({
-  baseUrl: 'http://localhost:3001',
+  baseUrl: 'http://localhost:3000',
   headers: {
-    'Authorization': `Bearer ${localStorage.getItem('jwt')}`,
     'Content-Type': 'application/json'
   },
 });

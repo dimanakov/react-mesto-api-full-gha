@@ -1,3 +1,4 @@
+const { JWT_SECRET, NODE_ENV } = process.env;
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const CONFLICT_409 = require('../errors/CONFLICT_409');
@@ -41,7 +42,13 @@ module.exports.login = (req, res, next) => {
 
   return User.findUserByCredentials(email, password)
     .then((user) => {
-      res.send({ token: jwt.sign({ _id: user._id }, 'soon-im-back', { expiresIn: '7d' }) });
+      res.send({
+        token: jwt.sign(
+          { _id: user._id },
+          NODE_ENV === 'production' ? JWT_SECRET : 'dev-secret-keypas',
+          { expiresIn: '7d' },
+        ),
+      });
     })
     .catch(next);
 };
