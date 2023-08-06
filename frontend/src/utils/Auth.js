@@ -1,6 +1,6 @@
 export default function Auth() {
-
-  const baseUrl = 'http://localhost:3000';
+  
+  const baseUrl = 'https://api.get-mesto.nomoreparties.co';
   const headers = { 'Content-Type': 'application/json' };
 
   function _getResponseData(res) {

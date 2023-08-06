@@ -1,6 +1,7 @@
 require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
+// const { corsOptions } = require('./utils/corsOptions');
 const helmet = require('helmet');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
@@ -18,7 +19,7 @@ const app = express();
 
 mongoose.connect(DB_URL);
 
-app.use(cors({ origin: 'http://localhost:3001' }));
+app.use(cors({ origin: ['https://get-mesto.nomoreparties.co', 'http://localhost:3001'] }));
 app.use(helmet());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
