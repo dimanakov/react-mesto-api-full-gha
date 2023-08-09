@@ -31,7 +31,7 @@ export default function App() {
   const [selectedCard, handleCardClick] = useState({});
   const [isLoading, setIsLoading] = useState(false);
   const [isLoggedIn, setLoggedIn] = useState(false);
-  const [isRegisterSucces, setRegisterSucces] = useState(null);
+  const [isRegisterSuccess, setRegisterSuccess] = useState(null);
 
   const [currentUser, setCurrentUser] = useState({});
   const [userEmail, setUserEmail] = useState('');
@@ -154,24 +154,29 @@ export default function App() {
       })
       .catch((err) => {             //попадаем сюда если один из промисов завершится ошибкой 
         console.error(err);
+        setRegisterSuccess(false); // установить "ошибку" в результат авторизации
+        handleAuthResult(); // показать модалку с результатом авторизации
       })
-      .finally(() => { setIsLoading(false) });
+      .finally(() => {
+        setIsLoading(false)
+      });
   }
 
   function handleSubmitRegister(email, password) {
-    setIsLoading(true);
-    register(email, password)
+    setIsLoading(true); // заменить текст кнопки на время ответа сервера
+    register(email, password) // отправить запрос на регистрацию: почта, пароль
       .then((res) => {
-        setRegisterSucces(true);
+        setRegisterSuccess(true); // установить успех в результат регистрации
+        handleAuthResult(); // показать модалку с результатом регистрации
         navigate('/sign-in', { replace: true })
       })
-      .catch((err) => {             //попадаем сюда если один из промисов завершится ошибкой 
+      .catch((err) => { //попадаем сюда если один из промисов завершится ошибкой 
+        setRegisterSuccess(false); // установить ошибку в результат регистрации
         console.error(err);
-        setRegisterSucces(false);
       })
       .finally(() => {
-        handleAuthResult();
         setIsLoading(false);
+        handleAuthResult(); // показать модалку с результатом регистрации
       });
   }
 
@@ -184,7 +189,7 @@ export default function App() {
         setCurrentUser(userData);
         setCardsData(initialCards);
       })
-      .catch((err) => {             //попадаем сюда если один из промисов завершится ошибкой 
+      .catch((err) => { //попадаем сюда если один из промисов завершится ошибкой 
         console.error(err);
       });
   }
@@ -198,7 +203,7 @@ export default function App() {
           setUserEmail(res?.email);
           res ? navigate('/', { replace: true }) : navigate('/sign-in', { replace: true });
         })
-        .catch((err) => {             //попадаем сюда если один из промисов завершится ошибкой 
+        .catch((err) => { //попадаем сюда если один из промисов завершится ошибкой 
           setLoggedIn(false);
           console.error(err);
         })
@@ -206,7 +211,8 @@ export default function App() {
   }
 
   useEffect(() => {
-    checkToken();
+    checkToken(); // проверить аутентификацию пользователя
+    setRegisterSuccess(null); // обнулить результат модалки регистрации/авторизации
     if (isLoggedIn) {
       getUserData();
     }
@@ -269,7 +275,7 @@ export default function App() {
             />
             <InfoTooltip
               isOpen={isAuthPopupOpen}
-              resultRegister={isRegisterSucces}
+              resultRegister={isRegisterSuccess}
             />
           </div >
         </UserEmailContext.Provider>

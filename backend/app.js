@@ -1,15 +1,12 @@
 require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
-// const { corsOptions } = require('./utils/corsOptions');
 const helmet = require('helmet');
+const rateLimit = require('express-rate-limit'); // защита от DDoS
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const { errors } = require('celebrate');
-const { signValidator } = require('./middlewares/requestValidator');
-const NOT_FOUND_404 = require('./errors/NOT_FOUND_404');
-const { login, createUser } = require('./controllers/auth');
-const auth = require('./middlewares/auth');
+const routes = require('./routes/index');
 const { errorHandler } = require('./middlewares/errorHandler');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 
@@ -17,8 +14,18 @@ const { PORT = 3000, DB_URL = 'mongodb://127.0.0.1:27017/mestodb' } = process.en
 
 const app = express();
 
+const limiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 100, // Limit each IP to 100 requests per `window` (here, per 15 minutes)
+  standardHeaders: true, // Return rate limit info in the `RateLimit-*` headers
+  legacyHeaders: false, // Disable the `X-RateLimit-*` headers
+  // store: ... , // Use an external store for more precise rate limiting
+});
+
 mongoose.connect(DB_URL);
 
+// Apply the rate limiting middleware to all requests
+app.use(limiter);
 app.use(cors({ origin: ['https://get-mesto.nomoreparties.co', 'http://localhost:3001'] }));
 app.use(helmet());
 app.use(bodyParser.json());
@@ -33,17 +40,7 @@ app.get('/crash-test', () => {
   }, 0);
 });
 
-app.post('/signup', signValidator, createUser);
-app.post('/signin', signValidator, login);
-
-app.use(auth);
-
-app.use('/users', require('./routes/users'));
-app.use('/cards', require('./routes/cards'));
-
-app.use('*', (req, res, next) => { // обработчик несуществующих страниц
-  next(new NOT_FOUND_404('Запрашиваемая страница не найдена.'));
-});
+app.use(routes);
 
 app.use(errorLogger); // логирование ошибок через winston -> error.log
 app.use(errors()); // обработчик ошибок celebrate

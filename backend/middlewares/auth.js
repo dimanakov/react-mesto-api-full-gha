@@ -2,7 +2,6 @@ const { JWT_SECRET, NODE_ENV } = process.env;
 const jwt = require('jsonwebtoken');
 const UNAUTHORIZED_401 = require('../errors/UNAUTHORIZED_401');
 
-// eslint-disable-next-line consistent-return
 module.exports = (req, res, next) => {
   // тут будет вся авторизация
   // достаём авторизационный заголовок

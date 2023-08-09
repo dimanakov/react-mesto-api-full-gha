@@ -24,7 +24,8 @@ module.exports.addCard = (req, res, next) => {
         // eslint-disable-next-line no-shadow
         .then((card) => {
           res.status(201).send(card);
-        });
+        })
+        .catch(next);
     })
     .catch(next);
 };
@@ -44,7 +45,8 @@ module.exports.removeCard = (req, res, next) => {
       Card.deleteOne(card)
         .then(() => {
           res.send({ message: 'Карточка удалена' });
-        });
+        })
+        .catch(next);
     })
     .catch(next);
 };
